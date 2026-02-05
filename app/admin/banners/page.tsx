@@ -295,12 +295,14 @@ export default function BannersPage() {
     loadBanners();
   };
 
+  const loadingView = (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <Loader2 className="w-8 h-8 text-cyan-500 animate-spin" />
+    </div>
+  );
+
   if (isLoading || !isAuthorized) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-cyan-500 animate-spin" />
-      </div>
-    );
+    return loadingView;
   }
 
   return (
