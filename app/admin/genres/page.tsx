@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 import { useEffect, useState, useRef, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FolderPlus,
@@ -49,10 +49,10 @@ export default function GenresPage() {
 
 function GenresPageContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editId, setEditId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editingGenre, setEditingGenre] = useState<Genre | null>(null);
   const [formData, setFormData] = useState({ name: '', description: '', coverUrl: '' });
@@ -69,7 +69,11 @@ function GenresPageContent() {
     loadGenres();
   }, [router]);
 
-  const editId = searchParams.get('edit');
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    setEditId(params.get('edit'));
+  }, []);
 
   useEffect(() => {
     if (!editId || genres.length === 0) return;
