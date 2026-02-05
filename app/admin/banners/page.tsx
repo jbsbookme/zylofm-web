@@ -464,7 +464,7 @@ export default function BannersPage() {
             ))}
           </div>
         )}
-                className="bg-zinc-900/95 rounded-xl border border-zinc-800/80 w-full max-w-lg max-h-[90vh] flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.55)]"
+      </main>
 
       {/* Modal */}
       <AnimatePresence>
