@@ -69,7 +69,7 @@ const devUsers: DevUser[] = [
   },
 ];
 
-function buildLoginResponse(user: { id: string; email: string; role: string; name?: string }) {
+function buildLoginResponse(user: { id: string; email: string; role: string; name?: string | null }) {
   const accessToken = jwt.sign(
     { sub: user.id, role: user.role },
     JWT_ACCESS_SECRET,
@@ -89,7 +89,7 @@ function buildLoginResponse(user: { id: string; email: string; role: string; nam
         id: user.id,
         email: user.email,
         role: user.role,
-        name: user.name,
+        name: user.name ?? undefined,
       },
       tokens: {
         accessToken,
