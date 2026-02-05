@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="zGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" fill="#1a1a2e"/>
+  <path d="M 80 70 L 160 70 L 100 140 L 160 140 L 160 155 L 70 155 L 130 85 L 80 85 Z" fill="url(#zGrad)" stroke="url(#zGrad)" stroke-width="2" stroke-linejoin="miter"/>
+  <path d="M 170 90 Q 185 90 185 105 T 185 120" fill="none" stroke="#00D4FF" stroke-width="3" opacity="0.6" stroke-linecap="round"/>
+  <path d="M 175 100 Q 195 100 195 120 T 195 140" fill="none" stroke="#8B5CF6" stroke-width="3" opacity="0.5" stroke-linecap="round"/>
+  <path d="M 180 110 Q 205 110 205 135 T 205 160" fill="none" stroke="#00D4FF" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+</svg>

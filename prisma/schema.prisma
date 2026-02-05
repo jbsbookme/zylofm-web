@@ -1,0 +1,147 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  password    String
+  role        String   @default("LISTENER")
+  djPlan      DjPlan   @default(FREE)
+  // DJ Profile fields
+  bio         String?
+  photoUrl    String?
+  instagram   String?
+  twitter     String?
+  soundcloud  String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  mixes       Mix[]
+  djRequests  DjRequest[]
+}
+
+enum DjPlan {
+  FREE
+  PRO
+}
+
+enum DJRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model DjRequest {
+  id         String          @id @default(cuid())
+  userId     String
+  status     DJRequestStatus @default(PENDING)
+  displayName String?
+  bio        String?
+  location   String?
+  phone      String?
+  instagram  String?
+  twitter    String?
+  soundcloud String?
+  sampleLink String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  reviewedAt DateTime?
+
+  user       User            @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+  @@index([createdAt])
+}
+
+model DjProActivationLog {
+  id           String   @id @default(cuid())
+  adminUserId  String
+  updatedCount Int
+  createdAt    DateTime @default(now())
+}
+
+model Genre {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  coverUrl    String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  mixes       Mix[]
+}
+
+model Mix {
+  id               String   @id @default(cuid())
+  title            String
+  description      String?
+  coverUrl         String?
+  audioUrl         String?
+  cloudStoragePath String?
+  isPublic         Boolean  @default(true)
+  durationSec      Int?
+  bpm              Int?     // Beats per minute
+  status           String   @default("PENDING")
+  rejectReason     String?  // Razón de rechazo
+  featured         Boolean  @default(false)
+  featuredOrder    Int?
+  genreId          String?
+  userId           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id])
+  genre            Genre?   @relation(fields: [genreId], references: [id])
+}
+
+model Banner {
+  id          String   @id @default(cuid())
+  title       String
+  imageUrl    String
+  linkUrl     String?
+  position    String   @default("HOME")
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RadioStation {
+  id          String   @id @default(cuid())
+  name        String
+  streamUrl   String
+  genre       String?
+  coverUrl    String?
+  description String?
+  isActive    Boolean  @default(true)
+  isDefault   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model KaraokeTrack {
+  id               String   @id @default(cuid())
+  title            String
+  artist           String
+  audioUrl         String?  // URL del audio sin voz
+  cloudStoragePath String?
+  coverUrl         String?
+  lyrics           String?   // Letras en formato LRC sincronizado
+  durationSec      Int?
+  sortOrder        Int      @default(0)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
